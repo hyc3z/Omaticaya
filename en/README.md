@@ -6,4 +6,4 @@ In order to compensate for kube-scheduler's lack of flexibility, a sheduling fra
 
 The Omaticaya project is thus initiated, to provide real-time comprehensive information about gpu within the cluster.
 
-![Omaticaya's Flow Chart](../pic/Omaticaya-FlowChart-en.svg)
+![Omaticaya's Flow Chart](../pic/Omaticaya-FlowChart-en.png)
