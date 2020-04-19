@@ -1,14 +1,32 @@
 package global
 
-import "go.uber.org/zap/zapcore"
+import (
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+)
 
-type globalInfo struct {
-	projectName string
-	version     string
+type GlobalInfo struct {
+	ProjectName string
+	Version     string
 }
 
-func (f *globalInfo) MarshalLogObject(enc zapcore.ObjectEncoder) error {
-	enc.AddString("projectName", f.projectName)
-	enc.AddString("version", f.version)
+var ProjectInfo GlobalInfo
+
+func (f *GlobalInfo) MarshalLogObject(enc zapcore.ObjectEncoder) error {
+	enc.AddString("projectName", f.ProjectName)
+	enc.AddString("version", f.Version)
+	return nil
+}
+
+func InitInfo() error {
+	ProjectInfo = GlobalInfo{
+		ProjectName: "Omaticaya",
+		Version:     "v1.0",
+	}
+	Logger.Info("InitInfo",
+		// Structured context as strongly typed Field values.
+		zap.Object("globalInfo", &ProjectInfo),
+	)
+
 	return nil
 }

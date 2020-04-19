@@ -1,4 +1,4 @@
-module omaticaya
+module github.com/hyc3z/Omaticaya
 
 go 1.13
 
