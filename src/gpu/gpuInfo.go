@@ -26,7 +26,7 @@ func nvmlDeviceToGpu(d *nvml.Device, id uint) global.GPU {
 		FreeMemory:     *status.Memory.Global.Free,
 		CoreClock:      *d.Clocks.Cores,
 		Bandwidth:      *d.PCI.Bandwidth,
-		OtherValues:    global.CustomedValues{},
+		Processes:      &status.Processes,
 	}
 	return gpuInfo
 }

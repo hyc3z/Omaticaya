@@ -8,9 +8,6 @@ import (
 	"os"
 )
 
-type CustomedValues struct {
-}
-
 type GPU struct {
 	Device         *nvml.Device
 	CountID        uint
@@ -23,7 +20,7 @@ type GPU struct {
 	FreeMemory     uint64
 	CoreClock      uint
 	Bandwidth      uint
-	OtherValues    CustomedValues
+	Processes      *[]nvml.ProcessInfo
 }
 
 type NodeInfo struct {
