@@ -26,11 +26,13 @@ func InfoToMap() map[string]string {
 				m["omaticaya/"+strconv.Itoa(gpuId)+"/"+relType.Field(i).Name] = strconv.Itoa(int(elem.Field(i).Uint()))
 			} else if elem.Field(i).Type() == reflect.TypeOf(nvml.CudaComputeCapabilityInfo{}) {
 				versionString := ""
-				for t := 0; t < elem.Field(i).NumField(); t++ {
+				cudaElem := reflect.ValueOf(nvml.CudaComputeCapabilityInfo{}).Type()
+				for t := 0; t < cudaElem.NumField(); t++ {
 					if t > 0 {
 						versionString += "."
 					}
-					versionString += strconv.Itoa(int(elem.Field(i).Field(t).Uint()))
+					val := elem.Field(i).Field(t).Elem()
+					versionString += strconv.Itoa(int(val.Int()))
 				}
 				m["omaticaya/"+strconv.Itoa(gpuId)+"/"+relType.Field(i).Name] = versionString
 			}
@@ -83,7 +85,7 @@ func CleanTag() {
 	} else {
 		nodeLabel := node.GetLabels()
 		for k := range nodeLabel {
-			if strings.Contains(k, "omaticaya/") {
+			if strings.Contains(k, "omaticaya/") || strings.Contains(k, "scv/") {
 				delete(nodeLabel, k)
 			}
 		}

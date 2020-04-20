@@ -23,6 +23,7 @@ func main() {
 			zap.Error(err),
 		)
 	}
+	operation.CleanTag()
 	cron := cronjob.InitCronjob()
 	cronjob.UpdateGPUInfo(cron)
 	cronjob.UpdateSchedulingPolicy(cron)

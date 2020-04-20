@@ -58,7 +58,7 @@ spec:
       serviceAccountName: omaticaya-sa
       containers:
         - name: omaticaya
-          image: hyc3z/omaticaya:cuda-10.1-a
+          image: hyc3z/omaticaya:cuda-10.1-c
           imagePullPolicy: Always
           env:
             - name: NODE_NAME
