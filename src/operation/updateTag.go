@@ -1,6 +1,7 @@
 package operation
 
 import (
+	"context"
 	"github.com/NVIDIA/gpu-monitoring-tools/bindings/go/nvml"
 	"github.com/hyc3z/Omaticaya/src/global"
 	"go.uber.org/zap"
@@ -45,7 +46,7 @@ func UpdateTagForNode() {
 			zap.Error(err),
 		)
 	}
-	node, err := client.CoreV1().Nodes().Get(global.ProjectInfo.Node.NodeName, v1.GetOptions{})
+	node, err := client.CoreV1().Nodes().Get(context.TODO(), global.ProjectInfo.Node.NodeName, v1.GetOptions{})
 	if err != nil {
 		global.Logger.Error(
 			"updateTagForNodeError",
@@ -58,7 +59,7 @@ func UpdateTagForNode() {
 			nodeLabel[k] = v
 		}
 		node.SetLabels(nodeLabel)
-		if _, err := client.CoreV1().Nodes().Update(node); err != nil {
+		if _, err := client.CoreV1().Nodes().Update(context.TODO(), node, v1.UpdateOptions{}); err != nil {
 			global.Logger.Error("Update Tag failed.",
 				zap.Error(err),
 			)
@@ -73,7 +74,7 @@ func CleanTag() {
 			zap.Error(err),
 		)
 	}
-	node, err := client.CoreV1().Nodes().Get(global.ProjectInfo.Node.NodeName, v1.GetOptions{})
+	node, err := client.CoreV1().Nodes().Get(context.TODO(), global.ProjectInfo.Node.NodeName, v1.GetOptions{})
 	if err != nil {
 		global.Logger.Error(
 			"cleanTagError",
@@ -87,7 +88,7 @@ func CleanTag() {
 			}
 		}
 		node.SetLabels(nodeLabel)
-		if _, err := client.CoreV1().Nodes().Update(node); err != nil {
+		if _, err := client.CoreV1().Nodes().Update(context.TODO(), node, v1.UpdateOptions{}); err != nil {
 			global.Logger.Error("Clean Tag failed.",
 				zap.Error(err),
 			)

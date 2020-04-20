@@ -19,7 +19,7 @@ func main() {
 	}()
 	err := global.InitInfo()
 	if err != nil {
-		global.Logger.Error("InitInfo failed.",
+		global.Logger.Panic("InitInfo failed.",
 			zap.Error(err),
 		)
 	}
