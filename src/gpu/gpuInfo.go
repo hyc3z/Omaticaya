@@ -7,32 +7,14 @@ import (
 	"log"
 )
 
-type customedValues struct {
-}
-
-type GPU struct {
-	Device         *nvml.Device
-	CountID        uint
-	UUID           string
-	CudaComputeCap nvml.CudaComputeCapabilityInfo
-	Model          string
-	Power          uint
-	Memory         uint64
-	MemoryClock    uint
-	FreeMemory     uint64
-	CoreClock      uint
-	Bandwidth      uint
-	otherValues    customedValues
-}
-
-func nvmlDeviceToGpu(d *nvml.Device, id uint) GPU {
+func nvmlDeviceToGpu(d *nvml.Device, id uint) global.GPU {
 	status, err := d.Status()
 	if err != nil {
 		global.Logger.Panic("getDeviceStatus Fail",
 			zap.Error(err),
 		)
 	}
-	gpuInfo := GPU{
+	gpuInfo := global.GPU{
 		Device:         d,
 		CountID:        id,
 		UUID:           d.UUID,
@@ -44,7 +26,7 @@ func nvmlDeviceToGpu(d *nvml.Device, id uint) GPU {
 		FreeMemory:     *status.Memory.Global.Free,
 		CoreClock:      *d.Clocks.Cores,
 		Bandwidth:      *d.PCI.Bandwidth,
-		otherValues:    customedValues{},
+		OtherValues:    global.CustomedValues{},
 	}
 	return gpuInfo
 }

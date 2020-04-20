@@ -1,19 +1,36 @@
 package global
 
 import (
-	"github.com/hyc3z/Omaticaya/src/gpu"
+	"github.com/NVIDIA/gpu-monitoring-tools/bindings/go/nvml"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
-	"log"
 	"os"
 )
+
+type CustomedValues struct {
+}
+
+type GPU struct {
+	Device         *nvml.Device
+	CountID        uint
+	UUID           string
+	CudaComputeCap nvml.CudaComputeCapabilityInfo
+	Model          string
+	Power          uint
+	Memory         uint64
+	MemoryClock    uint
+	FreeMemory     uint64
+	CoreClock      uint
+	Bandwidth      uint
+	OtherValues    CustomedValues
+}
 
 type NodeInfo struct {
 	NodeName string
 	HasGpu   bool
-	Gpus     []gpu.GPU
+	Gpus     []GPU
 	Config   *rest.Config
 }
 
