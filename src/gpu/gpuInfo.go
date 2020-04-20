@@ -5,6 +5,7 @@ import (
 	"github.com/hyc3z/Omaticaya/src/global"
 	"go.uber.org/zap"
 	"log"
+	"time"
 )
 
 func nvmlDeviceToGpu(d *nvml.Device, id uint) global.GPU {
@@ -76,8 +77,12 @@ func GetGpuInfo() error {
 				zap.Error(err),
 			)
 		}
-
+		t0 := time.Now()
 		currentGpu := nvmlDeviceToGpu(device, i)
+		t1t0 := time.Since(t0)
+		global.Logger.Info("nvmlDeviceToGpu Spent",
+			zap.Int64("nvmlDeviceToGpu Duration", t1t0.Milliseconds()),
+		)
 
 		gpus := global.ProjectInfo.Node.Gpus
 		flagAppend := true

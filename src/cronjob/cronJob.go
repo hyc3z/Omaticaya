@@ -7,6 +7,7 @@ import (
 	"github.com/robfig/cron"
 	"go.uber.org/zap"
 	"sync"
+	"time"
 )
 
 func InitCronjob() *cron.Cron {
@@ -15,12 +16,22 @@ func InitCronjob() *cron.Cron {
 
 func UpdateGPUInfo(c *cron.Cron) {
 	if err := c.AddFunc(global.ProjectInfo.MonitoringGpuIntervalPattern, func() {
+		t0 := time.Now()
 		err := gpu.GetGpuInfo()
+		t1t0 := time.Since(t0)
+		global.Logger.Info("GetGPUInfo Spent",
+			zap.Int64("GetGPUInfo Duration", t1t0.Milliseconds()),
+		)
+		t1 := time.Now()
 		if err != nil {
 			global.Logger.Error("UpdateGPUInfo error", zap.Error(err))
 			return
 		}
 		operation.UpdateTagForNode()
+		t2t1 := time.Since(t1)
+		global.Logger.Info("UpdateTag Spent",
+			zap.Int64("UpdateTag Duration", t2t1.Milliseconds()),
+		)
 	}); err != nil {
 		global.Logger.Error("UpdateGPUInfo error", zap.Error(err))
 	}
