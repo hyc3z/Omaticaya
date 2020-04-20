@@ -19,11 +19,11 @@ func InfoToMap() map[string]string {
 		relType := elem.Type()
 		for i := 0; i < relType.NumField(); i++ {
 			if elem.Field(i).Type() == reflect.TypeOf("") {
-				m["omaticaya/"+strconv.Itoa(gpuId)+"/"+relType.Field(i).Name] = strings.Replace(elem.Field(i).String(), " ", "-", -1)
+				m["Omaticaya-Gpu"+strconv.Itoa(gpuId)+"-"+relType.Field(i).Name] = strings.Replace(elem.Field(i).String(), " ", "-", -1)
 			} else if elem.Field(i).Type() == reflect.TypeOf(true) {
-				m["omaticaya/"+strconv.Itoa(gpuId)+"/"+relType.Field(i).Name] = strconv.FormatBool(elem.Field(i).Bool())
+				m["Omaticaya-Gpu"+strconv.Itoa(gpuId)+"-"+relType.Field(i).Name] = strconv.FormatBool(elem.Field(i).Bool())
 			} else if elem.Field(i).Type() == reflect.TypeOf(uint(0)) || elem.Field(i).Type() == reflect.TypeOf(uint64(0)) {
-				m["omaticaya/"+strconv.Itoa(gpuId)+"/"+relType.Field(i).Name] = strconv.Itoa(int(elem.Field(i).Uint()))
+				m["Omaticaya-Gpu"+strconv.Itoa(gpuId)+"-"+relType.Field(i).Name] = strconv.Itoa(int(elem.Field(i).Uint()))
 			} else if elem.Field(i).Type() == reflect.TypeOf(nvml.CudaComputeCapabilityInfo{}) {
 				versionString := ""
 				cudaElem := reflect.ValueOf(nvml.CudaComputeCapabilityInfo{}).Type()
@@ -34,7 +34,7 @@ func InfoToMap() map[string]string {
 					val := elem.Field(i).Field(t).Elem()
 					versionString += strconv.Itoa(int(val.Int()))
 				}
-				m["omaticaya/"+strconv.Itoa(gpuId)+"/"+relType.Field(i).Name] = versionString
+				m["Omaticaya-Gpu"+strconv.Itoa(gpuId)+"-"+relType.Field(i).Name] = versionString
 			}
 		}
 	}
@@ -85,7 +85,7 @@ func CleanTag() {
 	} else {
 		nodeLabel := node.GetLabels()
 		for k := range nodeLabel {
-			if strings.Contains(k, "omaticaya/") || strings.Contains(k, "scv/") {
+			if strings.Contains(k, "Omaticaya-") {
 				delete(nodeLabel, k)
 			}
 		}

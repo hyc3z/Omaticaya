@@ -78,7 +78,17 @@ func GetGpuInfo() error {
 
 		currentGpu := nvmlDeviceToGpu(device, i)
 		gpus := global.ProjectInfo.Node.Gpus
-		global.ProjectInfo.Node.Gpus = append(gpus, currentGpu)
+		flagAppend := true
+		for i := range gpus {
+			if gpus[i].UUID == currentGpu.UUID {
+				flagAppend = false
+				gpus[i] = currentGpu
+				break
+			}
+		}
+		if flagAppend {
+			global.ProjectInfo.Node.Gpus = append(gpus, currentGpu)
+		}
 		if err != nil {
 			log.Panicln("Template error:", err)
 		}
