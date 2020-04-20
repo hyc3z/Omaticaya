@@ -37,6 +37,7 @@ func GetGpuInfo() error {
 		global.Logger.Error("Error nvml.Init:",
 			zap.Error(err),
 		)
+		return err
 	}
 	defer func() {
 		err = nvml.Shutdown()
@@ -77,6 +78,7 @@ func GetGpuInfo() error {
 		}
 
 		currentGpu := nvmlDeviceToGpu(device, i)
+
 		gpus := global.ProjectInfo.Node.Gpus
 		flagAppend := true
 		for i := range gpus {
