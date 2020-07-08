@@ -2,7 +2,6 @@ package operation
 
 import (
 	"context"
-	"encoding/json"
 	"github.com/NVIDIA/gpu-monitoring-tools/bindings/go/nvml"
 	"github.com/hyc3z/Omaticaya/src/global"
 	"go.uber.org/zap"
@@ -37,27 +36,27 @@ func InfoToMap() map[string]string {
 				}
 				m[global.ProjectInfo.ProjectName+"-Gpu"+strconv.Itoa(gpuId)+"-"+relType.Field(i).Name] = versionString
 			} else if elem.Field(i).Type() == reflect.TypeOf([]nvml.ProcessInfo{}) {
-				prefixString := global.ProjectInfo.ProjectName + "-Gpu" + strconv.Itoa(gpuId) + "-PID-"
+				//prefixString := global.ProjectInfo.ProjectName + "-Gpu" + strconv.Itoa(gpuId) + "-PID-"
 				arr := elem.Field(i)
 				for t := 0; t < arr.Len(); t++ {
-					curProc := arr.Index(t)
-					procMap := make(map[string]string)
-					refType := reflect.TypeOf(nvml.ProcessInfo{})
-					for s := 0; s < refType.NumField(); s++ {
-						typeStr := refType.Field(s).Type
-						switch typeStr {
-						case reflect.TypeOf(""):
-							procMap[refType.Field(s).Name] = curProc.Field(s).String()
-						case reflect.TypeOf(uint(0)):
-							procMap[refType.Field(s).Name] = strconv.Itoa(int(curProc.Field(s).Uint()))
-						case reflect.TypeOf(uint64(0)):
-							procMap[refType.Field(s).Name] = strconv.Itoa(int(curProc.Field(s).Uint()))
-						case reflect.TypeOf(nvml.ProcessType(0)):
-							procMap[refType.Field(s).Name] = strconv.Itoa(int(curProc.Field(s).Uint()))
-						}
-					}
-					byteval, _ := json.Marshal(procMap)
-					m[prefixString+procMap["PID"]] = string(byteval)
+					//curProc := arr.Index(t)
+					//procMap := make(map[string]string)
+					//refType := reflect.TypeOf(nvml.ProcessInfo{})
+					//for s := 0; s < refType.NumField(); s++ {
+					//	typeStr := refType.Field(s).Type
+					//	switch typeStr {
+					//	case reflect.TypeOf(""):
+					//		procMap[refType.Field(s).Name] = curProc.Field(s).String()
+					//	case reflect.TypeOf(uint(0)):
+					//		procMap[refType.Field(s).Name] = strconv.Itoa(int(curProc.Field(s).Uint()))
+					//	case reflect.TypeOf(uint64(0)):
+					//		procMap[refType.Field(s).Name] = strconv.Itoa(int(curProc.Field(s).Uint()))
+					//	case reflect.TypeOf(nvml.ProcessType(0)):
+					//		procMap[refType.Field(s).Name] = strconv.Itoa(int(curProc.Field(s).Uint()))
+					//	}
+					//}
+					//byteval, _ := json.Marshal(procMap)
+					//m[prefixString+procMap["PID"]] = string(byteval)
 				}
 
 			}

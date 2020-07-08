@@ -9,7 +9,12 @@ import (
 )
 
 func nvmlDeviceToGpu(d *nvml.Device, id uint) global.GPU {
+	t0 := time.Now()
 	status, err := d.Status()
+	t1t0 := time.Since(t0)
+	global.Logger.Info("GetGPUStatus Spent",
+		zap.Int64("GetGPUStatus Duration", t1t0.Milliseconds()),
+	)
 	if err != nil {
 		global.Logger.Panic("getDeviceStatus Fail",
 			zap.Error(err),
