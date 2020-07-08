@@ -71,7 +71,7 @@ func InitInfo() error {
 	policyInterval := os.Getenv("MONITOR_POLICY_INTERVAL_PATTERN")
 	ProjectInfo = GlobalInfo{
 		ProjectName: "Omaticaya",
-		Version:     "v1.0",
+		Version:     "v1.1",
 		Node: NodeInfo{
 			NodeName: nodeName,
 			HasGpu:   false,
